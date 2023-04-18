@@ -207,10 +207,10 @@ iNat_sc <- function(per_page = 200, order = "desc", order_by = "created_at", acc
                     "lat", "lng", "radius", "nelat", "nelng", "swlat", "swlng", "list_id", "not_in_project", "not_matching_project_rules_for",
                     "q", "search_on", "quality_grade", "updated_since", "viewer_id", "reviewed", "locale", "preferred_place_id", "ttl")
 
-  res <- GET(api, query=c(fetch,list(page=1)))
+  res <- httr::GET(api, query=c(fetch,list(page=1)))
   resDF <- fromJSON(httr::content(res, as = "text"),flatten=TRUE)
     for (i in 2:(ceiling(resDF$total_results/resDF$per_page))) {
-      res.t <- GET(api, query=c(fetch,list(page=i)))
+      res.t <- httr::GET(api, query=c(fetch,list(page=i)))
       resDF.t <- fromJSON(httr::content(res.t, as = "text"),flatten=TRUE)
       resDF$results <- bind_rows(resDF$results, resDF.t$results)
       Sys.sleep(1)
