@@ -231,13 +231,13 @@ iNat <- function(per_page = 200, order = "desc", order_by = "created_at", acc = 
 
 
 
-  res <- GET(api, query=c(fetch,list(page=1)))
+  res <- httr::GET(api, query=c(fetch,list(page=1)))
   resDF <- fromJSON(httr::content(res, as = "text"),flatten=TRUE)
 
   if (resDF$total_results < 10001 & resDF$total_results > 200) {
 
     for (i in 2:(ceiling(resDF$total_results/resDF$per_page))) {
-      res.t <- GET(api, query=c(fetch,list(page=i)))
+      res.t <- httr::GET(api, query=c(fetch,list(page=i)))
       resDF.t <- fromJSON(httr::content(res.t, as = "text"),flatten=TRUE)
       resDF$results <- bind_rows(resDF$results,resDF.t$results)
       Sys.sleep(1)
